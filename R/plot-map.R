@@ -117,7 +117,14 @@ plot_usmap <- function(regions = c("states", "state", "counties", "county"),
     else if (regions_ == "county") regions__ <- "counties"
     else regions__ <- regions_
 
-    centroid_labels <- usmapdata::centroid_labels(regions__)
+  site101 <- usmap::fips(state = "TX", county = c("Bexar","Kendall", "Comal", "Guadalupe", "Wilson", "Atascosa", "Medina", "Bandera"))
+  site103 <- usmap::fips(state = "TX", county = c("Harris", "Grimes", "Montgomery", "Liberty", "Chambers", "Galveston", "Brazoria", "Fort Bend", "Waller", "Austin"))
+  site104 <- c(usmap::fips(state = "NY", county = c("New York", "Westchester", "Bronx", "Richmond", "Rockland")), usmap::fips(state = "NJ", county = c("Hudson", "Bergen")))
+  site105 <- usmap::fips(state = "CA", county = c("Los Angeles", "Kern", "San Bernardino", "Orange", "Ventura"))
+  
+  allcounties = c(site101, site103, site104, site105)
+
+    centroid_labels <- usmapdata::centroid_labels(regions__) %>% filter(fips %in% allcounties)
 
     if (length(include) > 0) {
       centroid_labels <- centroid_labels[
